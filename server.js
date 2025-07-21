@@ -1,6 +1,7 @@
 // server.js
 
 const express = require('express');
+const router = express.Router();
 const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
@@ -27,7 +28,11 @@ app.use('/api/user', require('./routes/userRoutes'));     // User routes
 app.get("/", (req, res) => {
   res.send("✅ Asset Management Backend is live!");
 });
-
+router.get('/', (req, res) => {
+    res.send('Auth route working');
+  });
+  
+  module.exports = router;
 // Start server
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
