@@ -24,10 +24,10 @@ mongoose.connect(process.env.MONGO_URI, {
 .catch((err) => console.error("❌ MongoDB Connection Error:", err));
 
 // API Routes
-app.use('/api/auth', require('./routes/authRoute'));
-app.use('/api/users', require('./routes/userRoute'));
-app.use('/api/assets', require('./routes/assetRoute'));
-app.use('/api/requests', require('./routes/requestRoute'));
+app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/assets', require('./routes/assetRoutes'));
+app.use('/api/requests', require('./routes/requestRoutes'));
 
 // Start server
 const PORT = process.env.PORT || 5000;
