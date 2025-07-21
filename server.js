@@ -23,6 +23,8 @@ app.use(express.json()); // Parse JSON bodies
 app.use('/api/auth', require('./routes/authRoutes'));     // Auth routes
 app.use('/api/admin', require('./routes/adminRoutes'));   // Admin routes
 app.use('/api/user', require('./routes/userRoutes'));     // User routes
+app.use(express.static('public'));
+
 
 // Default route
 app.get("/", (req, res) => {
