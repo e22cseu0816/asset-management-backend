@@ -1,5 +1,3 @@
-// server.js
-
 const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
@@ -7,47 +5,32 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
 
-// config
+// Load environment variables
 dotenv.config();
-app.use(cors());
-app.use(express.json());
-
-// serve frontend
-app.use(express.static(path.join(__dirname, 'public')));
-
-// routes
-app.use('/api/auth', require('./routes/authRoutes'));
-
-
-// Connect to MongoDB
-connectDB();
-
-
 
 // Middleware
 app.use(cors());
-app.use(express.json()); // Parse JSON bodies
+app.use(express.json());
 
+// Serve static frontend files from 'public' folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Routes
-app.use('/api/auth', require('./routes/authRoutes'));     // Auth routes
-app.use('/api/admin', require('./routes/adminRoutes'));   // Admin routes
-app.use('/api/user', require('./routes/userRoutes'));     // User routes
-app.use(express.static('public'));
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+.then(() => console.log("✅ MongoDB Connected"))
+.catch((err) => console.error("❌ MongoDB Connection Error:", err));
 
+// API Routes
+app.use('/api/auth', require('./routes/authRoute'));
+app.use('/api/users', require('./routes/userRoute'));
+app.use('/api/assets', require('./routes/assetRoute'));
+app.use('/api/requests', require('./routes/requestRoute'));
 
-// Default route
-app.get("/", (req, res) => {
-  res.send("✅ Asset Management Backend is live!");
-});
-router.get('/', (req, res) => {
-    res.send('Auth route working');
-  });
-  
-  module.exports = router;
 // Start server
-const port = process.env.PORT || 5000;
-app.listen(port, () => {
-  console.log(`🚀 Server running on port ${port}`);
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
 });
