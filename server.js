@@ -1,23 +1,34 @@
 // server.js
 
 const express = require('express');
-const router = express.Router();
+const app = express();
 const dotenv = require('dotenv');
+const mongoose = require('mongoose');
 const cors = require('cors');
-const connectDB = require('./config/db');
+const path = require('path');
 
-// Load environment variables from .env
+// config
 dotenv.config();
+app.use(cors());
+app.use(express.json());
+
+// serve frontend
+app.use(express.static(path.join(__dirname, 'public')));
+
+// routes
+app.use('/api/auth', require('./routes/authRoute'));
+
 
 // Connect to MongoDB
 connectDB();
 
-// Create express app
-const app = express();
+
 
 // Middleware
 app.use(cors());
 app.use(express.json()); // Parse JSON bodies
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use('/api/auth', require('./routes/authRoutes'));     // Auth routes
